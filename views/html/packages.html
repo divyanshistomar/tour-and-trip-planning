@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Packages | India Trip Planner</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="logo">India<span>TripPlanner</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/" >Home</a></li>
+      <li><a href="/destinations" >Destinations</a></li>
+      <li><a href="/packages" class="active">Packages</a></li>
+      <li><a href="/booking" >Book Now</a></li>
+      <li><a href="/about" >About</a></li>
+      <li><a href="/contact" >Contact</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+  </nav>
+
+  <div class="page-hero">
+    <p>All Tour Packages</p>
+    <h1>India Tour Packages</h1>
+    <p class="sub">Browse all available packages &mdash; budget to premium experiences across India.</p>
+  </div>
+
+  <section class="search-section">
+    <div class="search-card">
+      <h2>Filter Packages</h2>
+      <div class="search-form">
+        <div class="form-group">
+          <label>Destination</label>
+          <input type="text" id="pDest" placeholder="Search..." oninput="filterPkgs()" />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="pCat" onchange="filterPkgs()">
+            <option value="">All</option>
+            <option value="Cultural">Cultural</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Wellness">Wellness</option>
+            <option value="Leisure">Leisure</option>
+            <option value="Nature">Nature</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Max Price (&#8377;)</label>
+          <input type="number" id="pPrice" placeholder="e.g. 20000" oninput="filterPkgs()" />
+        </div>
+        <div class="form-group">
+          <label>Max Days</label>
+          <input type="number" id="pDays" placeholder="e.g. 7" oninput="filterPkgs()" />
+        </div>
+        <div class="form-group">
+          <label>Sort By</label>
+          <select id="pSort" onchange="filterPkgs()">
+            <option value="">Default</option>
+            <option value="pa">Price: Low to High</option>
+            <option value="pd">Price: High to Low</option>
+            <option value="rt">Top Rated</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="packages-section">
+    <div class="section-header">
+      <span id="pkg-count" class="section-tag">All Packages</span>
+      <h2 class="section-title">Available Tours</h2>
+    </div>
+    <div class="tours-grid" id="pkg-grid"><p class="loading">Loading packages...</p></div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="logo">India<span>TripPlanner</span></a>
+        <p>Your trusted platform for exploring India's finest destinations.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Pages</h4>
+        <a href="/">Home</a><a href="/destinations">Destinations</a>
+        <a href="/packages">Packages</a><a href="/booking">Book Now</a>
+        <a href="/about">About</a><a href="/contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 India Trip Planner &mdash; Node.js + Express.js College Project</p>
+    </div>
+  </footer>
+  <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal()">&#10005;</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+  <script src="/js/app.js"></script>
+  <script>
+    var allPkgs = [];
+    async function loadPkgs() {
+      var res  = await fetch('/api/tours');
+      var json = await res.json();
+      allPkgs  = json.data || [];
+      renderPkgs(allPkgs);
+    }
+    function renderPkgs(list) {
+      var g = document.getElementById('pkg-grid');
+      document.getElementById('pkg-count').textContent = list.length + ' Package' + (list.length !== 1 ? 's' : '') + ' Found';
+      if (!list.length) { g.innerHTML = '<p class="loading">No packages match your filters.</p>'; return; }
+      g.innerHTML = list.map(function(t) {
+        var stars = '';
+        for (var i = 0; i < Math.round(t.rating); i++) stars += '&#9733;';
+        return '<div class="tour-card" onclick="openModal(' + t.id + ')">'
+          + '<div class="card-img-wrap"><img src="' + t.image + '" alt="' + t.title + '" loading="lazy" />'
+          + '<span class="card-badge">' + t.category + '</span>'
+          + '<span class="card-price">&#8377;' + t.price.toLocaleString('en-IN') + '</span></div>'
+          + '<div class="card-body">'
+          + '<div class="card-meta"><span>&#128197; ' + t.days + ' days</span><span>&#128101; Max ' + t.groupSize + '</span><span>&#127939; ' + t.difficulty + '</span></div>'
+          + '<h3 class="card-title">' + t.title + '</h3>'
+          + '<p class="card-dest">&#128205; ' + t.destination + ', ' + t.state + '</p>'
+          + '<div class="card-rating"><span class="stars">' + stars + '</span><span>' + t.rating + ' (' + t.reviews + ' reviews)</span></div>'
+          + '<span class="card-btn">View Details &rarr;</span>'
+          + '</div></div>';
+      }).join('');
+    }
+    function filterPkgs() {
+      var dest  = document.getElementById('pDest').value.toLowerCase();
+      var cat   = document.getElementById('pCat').value;
+      var price = document.getElementById('pPrice').value;
+      var days  = document.getElementById('pDays').value;
+      var sort  = document.getElementById('pSort').value;
+      var r = allPkgs.filter(function(t) {
+        return (!dest  || t.destination.toLowerCase().includes(dest) || t.title.toLowerCase().includes(dest))
+          && (!cat   || t.category === cat)
+          && (!price || t.price <= Number(price))
+          && (!days  || t.days  <= Number(days));
+      });
+      if (sort === 'pa') r.sort(function(a,b){ return a.price - b.price; });
+      if (sort === 'pd') r.sort(function(a,b){ return b.price - a.price; });
+      if (sort === 'rt') r.sort(function(a,b){ return b.rating - a.rating; });
+      renderPkgs(r);
+    }
+    document.addEventListener('DOMContentLoaded', loadPkgs);
+  </script>
+</body>
+</html>

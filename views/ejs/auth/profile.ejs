@@ -1,0 +1,77 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title }) %>
+<body>
+<%- include('../partials/navbar', { activePage: 'profile' }) %>
+
+<main style="padding:2.5rem 1rem;max-width:700px;margin:0 auto">
+
+  <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:2rem;color:#fff;margin-bottom:2rem;display:flex;align-items:center;gap:1.5rem">
+    <div style="width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#f97316,#ef4444);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0">
+      <%= user.name.charAt(0).toUpperCase() %>
+    </div>
+    <div>
+      <h1 style="margin:0 0 0.25rem;font-size:1.75rem">Hello, <%= user.name %>! 👋</h1>
+      <p style="margin:0;opacity:0.7;font-size:0.9rem"><%= user.email %></p>
+      <span style="background:rgba(249,115,22,0.3);color:#fdba74;padding:0.2rem 0.75rem;border-radius:20px;font-size:0.75rem;font-weight:600;margin-top:0.5rem;display:inline-block">
+        <%= user.role.toUpperCase() %>
+      </span>
+    </div>
+  </div>
+
+  
+  <div style="background:#f0f4ff;border:1px solid #c7d7ff;border-radius:12px;padding:1.25rem;margin-bottom:1.5rem">
+    <h3 style="margin:0 0 0.75rem;color:#1a1a2e;font-size:1rem">🍪 How You're Logged In (Session Auth)</h3>
+    <ul style="margin:0;padding-left:1.25rem;color:#444;line-height:1.9;font-size:0.88rem">
+      <li>Your browser holds a cookie: <code style="background:#e8ecff;padding:0.1rem 0.4rem;border-radius:4px">connect.sid</code></li>
+      <li>The cookie contains a <strong>session ID</strong> (not your data)</li>
+      <li>Server looks up session in <strong>MongoDB</strong> using that ID</li>
+      <li>Session stores your <code style="background:#e8ecff;padding:0.1rem 0.4rem;border-radius:4px">userId</code> → Passport fetches full user</li>
+      <li>Result: <code style="background:#e8ecff;padding:0.1rem 0.4rem;border-radius:4px">req.user</code> is available in every protected route</li>
+    </ul>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+    <div style="background:#fff;border-radius:12px;padding:1.25rem;box-shadow:0 2px 8px rgba(0,0,0,0.07)">
+      <p style="color:#888;font-size:0.8rem;margin:0 0 0.25rem;text-transform:uppercase;letter-spacing:0.5px">Member Since</p>
+      <p style="margin:0;font-weight:700;color:#1a1a2e">
+        <%= new Date(user.createdAt).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) %>
+      </p>
+    </div>
+    <div style="background:#fff;border-radius:12px;padding:1.25rem;box-shadow:0 2px 8px rgba(0,0,0,0.07)">
+      <p style="color:#888;font-size:0.8rem;margin:0 0 0.25rem;text-transform:uppercase;letter-spacing:0.5px">Account Role</p>
+      <p style="margin:0;font-weight:700;color:#1a1a2e"><%= user.role %></p>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:1rem;flex-wrap:wrap">
+    <a href="/ssr/packages" style="flex:1;min-width:140px;background:linear-gradient(135deg,#f97316,#ef4444);color:#fff;padding:0.85rem;border-radius:10px;text-align:center;text-decoration:none;font-weight:700">
+      🗺️ Browse Tours
+    </a>
+    <a href="/chat" style="flex:1;min-width:140px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;padding:0.85rem;border-radius:10px;text-align:center;text-decoration:none;font-weight:700">
+      💬 Live Chat
+    </a>
+    <a href="/auth/logout" style="flex:1;min-width:140px;background:#fff;color:#ef4444;border:2px solid #ef4444;padding:0.85rem;border-radius:10px;text-align:center;text-decoration:none;font-weight:700">
+      🚪 Logout
+    </a>
+  </div>
+
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

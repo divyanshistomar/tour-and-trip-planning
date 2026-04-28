@@ -1,0 +1,142 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title }) %>
+<body>
+<%- include('../partials/navbar', { activePage: 'signup' }) %>
+
+<main style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div style="background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:2.5rem 2rem;width:100%;max-width:440px">
+
+    <h1 style="text-align:center;margin-bottom:0.25rem;color:#1a1a2e;font-size:1.75rem">Create Account 🚀</h1>
+    <p style="text-align:center;color:#666;margin-bottom:1.75rem;font-size:0.95rem">Join thousands of India travelers</p>
+
+    <% if (error) { %>
+      <div style="background:#fff0f0;border:1px solid #ffcccc;color:#c0392b;border-radius:8px;padding:0.75rem 1rem;margin-bottom:1.25rem;font-size:0.9rem">
+        ⚠️ <%= error %>
+      </div>
+    <% } %>
+
+    <form action="/auth/signup" method="POST">
+      <div style="margin-bottom:1rem">
+        <label style="display:block;margin-bottom:0.35rem;font-weight:600;color:#333;font-size:0.9rem">Full Name</label>
+        <input
+          type="text"
+          name="name"
+          placeholder="Your Name"
+          required
+          style="width:100%;padding:0.65rem 0.85rem;border:1.5px solid #ddd;border-radius:8px;font-size:1rem;box-sizing:border-box"
+          onfocus="this.style.borderColor='#f97316'"
+          onblur="this.style.borderColor='#ddd'"
+        />
+      </div>
+
+      <div style="margin-bottom:1rem">
+        <label style="display:block;margin-bottom:0.35rem;font-weight:600;color:#333;font-size:0.9rem">Email Address</label>
+        <input
+          type="email"
+          name="email"
+          placeholder="you@example.com"
+          required
+          style="width:100%;padding:0.65rem 0.85rem;border:1.5px solid #ddd;border-radius:8px;font-size:1rem;box-sizing:border-box"
+          onfocus="this.style.borderColor='#f97316'"
+          onblur="this.style.borderColor='#ddd'"
+        />
+      </div>
+
+      <div style="margin-bottom:1rem">
+        <label style="display:block;margin-bottom:0.35rem;font-weight:600;color:#333;font-size:0.9rem">Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="Minimum 6 characters"
+          required
+          minlength="6"
+          style="width:100%;padding:0.65rem 0.85rem;border:1.5px solid #ddd;border-radius:8px;font-size:1rem;box-sizing:border-box"
+          onfocus="this.style.borderColor='#f97316'"
+          onblur="this.style.borderColor='#ddd'"
+        />
+      </div>
+
+      <div style="margin-bottom:1.5rem">
+        <label style="display:block;margin-bottom:0.35rem;font-weight:600;color:#333;font-size:0.9rem">Confirm Password</label>
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Re-enter password"
+          required
+          style="width:100%;padding:0.65rem 0.85rem;border:1.5px solid #ddd;border-radius:8px;font-size:1rem;box-sizing:border-box"
+          onfocus="this.style.borderColor='#f97316'"
+          onblur="this.style.borderColor='#ddd'"
+        />
+      </div>
+
+      
+      <p id="matchMsg" style="font-size:0.82rem;margin:-1rem 0 1rem;color:#888"></p>
+
+      <button
+        type="submit"
+        style="width:100%;padding:0.8rem;background:linear-gradient(135deg,#f97316,#ef4444);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer"
+      >
+        Create Account →
+      </button>
+    </form>
+
+    
+    <details style="margin-top:1.5rem;background:#f0fff4;border-radius:8px;padding:1rem;font-size:0.82rem;color:#555;border:1px solid #c3e6cb">
+      <summary style="cursor:pointer;font-weight:700;color:#333">🔐 How bcrypt protects passwords</summary>
+      <ol style="margin:0.5rem 0 0 1rem;line-height:1.7">
+        <li>User submits password → POST /auth/signup</li>
+        <li><code>new User({ password })</code> — stored plain in memory</li>
+        <li>Mongoose calls <code>pre('save')</code> hook</li>
+        <li><code>bcrypt.hash(password, 12)</code> runs → 60-char digest</li>
+        <li>Hashed string stored in MongoDB (never plain text)</li>
+        <li>Login → <code>bcrypt.compare(input, hash)</code> → true/false</li>
+      </ol>
+    </details>
+
+    <p style="text-align:center;margin-top:1.25rem;color:#666;font-size:0.9rem">
+      Already have an account?
+      <a href="/auth/login" style="color:#f97316;font-weight:600;text-decoration:none">Sign In</a>
+    </p>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>
+
+<script>
+  // Client-side password match preview
+  const pass    = document.querySelector('[name="password"]');
+  const confirm = document.querySelector('[name="confirmPassword"]');
+  const msg     = document.getElementById('matchMsg');
+
+  confirm.addEventListener('input', () => {
+    if (!confirm.value) { msg.textContent = ''; return; }
+    if (pass.value === confirm.value) {
+      msg.textContent = '✅ Passwords match';
+      msg.style.color = '#27ae60';
+    } else {
+      msg.textContent = '❌ Passwords do not match';
+      msg.style.color = '#e74c3c';
+    }
+  });
+</script>
+</body>
+</html>

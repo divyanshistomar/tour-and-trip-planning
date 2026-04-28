@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destinations | India Trip Planner</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="logo">India<span>TripPlanner</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/" >Home</a></li>
+      <li><a href="/destinations" class="active">Destinations</a></li>
+      <li><a href="/packages" >Packages</a></li>
+      <li><a href="/booking" >Book Now</a></li>
+      <li><a href="/about" >About</a></li>
+      <li><a href="/contact" >Contact</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+  </nav>
+
+  <div class="page-hero">
+    <p>&#127470;&#127475; Explore India</p>
+    <h1>Popular Destinations</h1>
+    <p class="sub">Discover 15+ iconic destinations across India &mdash; mountains, beaches, heritage cities and more.</p>
+  </div>
+
+  <section class="search-section">
+    <div class="search-card">
+      <h2>Browse Destinations</h2>
+      <div class="search-form">
+        <div class="form-group">
+          <label>Search Place</label>
+          <input type="text" id="dSearch" placeholder="e.g. Goa, Manali..." oninput="filterDest()" />
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="dCat" onchange="filterDest()">
+            <option value="">All Types</option>
+            <option value="Cultural">Cultural</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Wellness">Wellness</option>
+            <option value="Leisure">Leisure</option>
+            <option value="Nature">Nature</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>State</label>
+          <select id="dState" onchange="filterDest()">
+            <option value="">All States</option>
+            <option>Himachal Pradesh</option>
+            <option>Rajasthan</option>
+            <option>Goa</option>
+            <option>Kerala</option>
+            <option>Ladakh</option>
+            <option>Uttarakhand</option>
+            <option>Uttar Pradesh</option>
+            <option>West Bengal</option>
+            <option>Tamil Nadu</option>
+            <option>Jammu and Kashmir</option>
+            <option>Andaman and Nicobar Islands</option>
+            <option>Delhi</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="destinations-section">
+    <div style="max-width:1280px;margin:0 auto 1.5rem;"><span id="dest-count" class="section-tag">All Destinations</span></div>
+    <div class="dest-grid" id="dest-grid"><p class="loading">Loading destinations...</p></div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="logo">India<span>TripPlanner</span></a>
+        <p>Your trusted platform for exploring India's finest destinations.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Pages</h4>
+        <a href="/">Home</a><a href="/destinations">Destinations</a>
+        <a href="/packages">Packages</a><a href="/booking">Book Now</a>
+        <a href="/about">About</a><a href="/contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 India Trip Planner &mdash; Node.js + Express.js College Project</p>
+    </div>
+  </footer>
+  <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal()">&#10005;</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+  <script src="/js/app.js"></script>
+  <script>
+    var allDests = [];
+    async function loadDests() {
+      var res  = await fetch('/api/tours');
+      var json = await res.json();
+      allDests = json.data || [];
+      renderDests(allDests);
+    }
+    function renderDests(list) {
+      var g = document.getElementById('dest-grid');
+      document.getElementById('dest-count').textContent = list.length + ' Destination' + (list.length !== 1 ? 's' : '') + ' Found';
+      if (!list.length) { g.innerHTML = '<p class="loading">No destinations found.</p>'; return; }
+      g.innerHTML = list.map(function(t) {
+        return '<div class="dest-card" onclick="openModal(' + t.id + ')">'
+          + '<img class="dest-img" src="' + t.image + '" alt="' + t.destination + '" loading="lazy" />'
+          + '<div class="dest-body">'
+          + '<h3>' + t.destination + '</h3>'
+          + '<p class="dest-state">&#128205; ' + t.state + '</p>'
+          + '<p>' + t.description.substring(0, 100) + '...</p>'
+          + '<div class="dest-tags">'
+          + '<span class="dest-tag orange">' + t.category + '</span>'
+          + '<span class="dest-tag">' + t.days + ' Days</span>'
+          + '<span class="dest-tag green">&#8377;' + t.price.toLocaleString('en-IN') + '</span>'
+          + '</div>'
+          + '<p style="font-size:.77rem;color:var(--muted);margin-top:.5rem;">&#128337; Best Time: ' + t.bestTime + '</p>'
+          + '</div></div>';
+      }).join('');
+    }
+    function filterDest() {
+      var q = document.getElementById('dSearch').value.toLowerCase();
+      var c = document.getElementById('dCat').value;
+      var s = document.getElementById('dState').value;
+      var r = allDests.filter(function(t) {
+        return (!q || t.destination.toLowerCase().includes(q) || t.state.toLowerCase().includes(q))
+          && (!c || t.category === c)
+          && (!s || t.state === s);
+      });
+      renderDests(r);
+    }
+    document.addEventListener('DOMContentLoaded', loadDests);
+  </script>
+</body>
+</html>

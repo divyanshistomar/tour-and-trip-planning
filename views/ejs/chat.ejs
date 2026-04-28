@@ -1,0 +1,294 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head', { title }) %>
+
+<style>
+  .chat-wrap   { max-width:860px;margin:0 auto;padding:1.5rem 1rem;display:grid;grid-template-columns:1fr 220px;gap:1.25rem;align-items:start }
+  .chat-box    { background:#fff;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,0.09);overflow:hidden;display:flex;flex-direction:column }
+  .chat-header { background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;padding:1rem 1.25rem;display:flex;align-items:center;gap:0.75rem }
+  .chat-msgs   { flex:1;height:420px;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.6rem;background:#f8f8ff }
+  .msg-bubble  { max-width:80%;padding:0.6rem 0.9rem;border-radius:12px;font-size:0.9rem;line-height:1.4;word-break:break-word }
+  .msg-own     { background:linear-gradient(135deg,#f97316,#ef4444);color:#fff;margin-left:auto;border-bottom-right-radius:4px }
+  .msg-other   { background:#fff;color:#1a1a2e;border:1px solid #eee;border-bottom-left-radius:4px }
+  .msg-system  { text-align:center;color:#999;font-size:0.78rem;font-style:italic;margin:0.2rem 0 }
+  .msg-sender  { font-size:0.72rem;opacity:0.7;margin-bottom:0.2rem;font-weight:600 }
+  .msg-time    { font-size:0.68rem;opacity:0.6;margin-top:0.15rem;text-align:right }
+  .chat-input  { display:flex;gap:0.5rem;padding:0.85rem;border-top:1px solid #eee;background:#fff }
+  .chat-input input  { flex:1;padding:0.6rem 0.85rem;border:1.5px solid #ddd;border-radius:8px;font-size:0.95rem;outline:none }
+  .chat-input input:focus { border-color:#6366f1 }
+  .chat-input button { padding:0.6rem 1.1rem;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700 }
+  .sidebar     { background:#fff;border-radius:14px;box-shadow:0 4px 20px rgba(0,0,0,0.09);padding:1rem }
+  .typing-bar  { padding:0.4rem 1rem;font-size:0.78rem;color:#888;font-style:italic;min-height:1.5rem }
+  @media(max-width:640px){ .chat-wrap{grid-template-columns:1fr} .sidebar{display:none} }
+</style>
+
+<body>
+<%- include('partials/navbar', { activePage: 'chat' }) %>
+
+<main style="padding:1rem 0">
+  <div class="chat-wrap">
+
+    <!-- CHAT MAIN PANEL -->
+    <div class="chat-box">
+      <div class="chat-header">
+        <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem">💬</div>
+        <div>
+          <div style="font-weight:700;font-size:1rem">Traveler Chat</div>
+          <div style="font-size:0.75rem;opacity:0.8" id="onlineCount">Connecting...</div>
+        </div>
+        
+        <div id="connDot" style="width:10px;height:10px;border-radius:50%;background:#fbbf24;margin-left:auto" title="Connecting..."></div>
+      </div>
+
+      <div class="chat-msgs" id="messages">
+        <!-- Messages injected here by JavaScript -->
+        <p style="text-align:center;color:#bbb;font-size:0.85rem;margin-top:auto">
+          Chat with other travelers planning their India trip! 🇮🇳
+        </p>
+      </div>
+
+      <div class="typing-bar" id="typingBar"></div>
+
+      <div class="chat-input">
+        <input
+          id="msgInput"
+          type="text"
+          placeholder="Type a message..."
+          maxlength="500"
+          autocomplete="off"
+        />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <!-- SIDEBAR: Online Users -->
+    <div class="sidebar">
+      <h4 style="margin:0 0 0.75rem;color:#1a1a2e;font-size:0.9rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px">
+        🟢 Online (<span id="sidebarCount">0</span>)
+      </h4>
+      <ul id="userList" style="list-style:none;margin:0;padding:0;font-size:0.88rem;color:#444;line-height:2">
+        <li style="color:#bbb">Loading...</li>
+      </ul>
+
+      <hr style="margin:1rem 0;border:none;border-top:1px solid #eee">
+
+      <h4 style="margin:0 0 0.5rem;color:#1a1a2e;font-size:0.9rem;font-weight:700">Your Info</h4>
+      <p style="margin:0;font-size:0.85rem;color:#666">
+        <strong><%= user.name %></strong><br>
+        <span style="color:#999"><%= user.email %></span>
+      </p>
+
+      <!-- Socket.io explanation box for viva -->
+      <details style="margin-top:1rem">
+        <summary style="cursor:pointer;font-size:0.78rem;color:#6366f1;font-weight:600">How Socket.io works?</summary>
+        <p style="font-size:0.75rem;color:#666;margin:0.5rem 0 0;line-height:1.6">
+          A WebSocket keeps a persistent connection between your browser and the server.
+          <code>socket.emit()</code> sends events. <code>socket.on()</code> listens.
+          <code>io.emit()</code> broadcasts to everyone.
+        </p>
+      </details>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>
+
+
+
+
+
+
+
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  // ── Current user info (injected from server via EJS) ─────────────
+  const ME = {
+    name:  '<%= user.name %>',
+    email: '<%= user.email %>',
+  };
+
+  // ── Connect to Socket.io server ───────────────────────────────────
+  //
+  // io() with no arguments connects to the same origin.
+  // This creates a persistent WebSocket connection.
+  //
+  const socket = io();
+
+  const messagesEl   = document.getElementById('messages');
+  const msgInput     = document.getElementById('msgInput');
+  const onlineCount  = document.getElementById('onlineCount');
+  const connDot      = document.getElementById('connDot');
+  const typingBar    = document.getElementById('typingBar');
+  const userList     = document.getElementById('userList');
+  const sidebarCount = document.getElementById('sidebarCount');
+
+  let typingTimer;
+  let isTyping = false;
+
+  // ── EVENT: socket connected ─────────────────────────────────────
+  //
+  // 'connect' fires when WebSocket handshake completes.
+  // We immediately tell the server who we are.
+  //
+  socket.on('connect', () => {
+    connDot.style.background = '#22c55e'; // green = connected
+    connDot.title = 'Connected';
+
+    // Tell server who just connected
+    // Server stores this in connectedUsers map (socket.id → { name, email })
+    socket.emit('user:join', ME);
+  });
+
+  // ── EVENT: disconnected from server ────────────────────────────
+  socket.on('disconnect', () => {
+    connDot.style.background = '#ef4444'; // red = disconnected
+    connDot.title = 'Disconnected';
+    appendSystem('Disconnected from server. Reconnecting...');
+  });
+
+  // ── EVENT: receive a chat message ──────────────────────────────
+  //
+  // Server broadcasts this to ALL clients when someone sends a message.
+  // We check socket.id to determine if it's our own message.
+  //
+  socket.on('chat:message', (data) => {
+    const isOwn = data.socketId === socket.id;
+    appendMessage(data, isOwn);
+  });
+
+  // ── EVENT: system message (join/leave) ─────────────────────────
+  socket.on('chat:system', (data) => {
+    appendSystem(data.text);
+  });
+
+  // ── EVENT: users list updated ───────────────────────────────────
+  socket.on('users:update', (data) => {
+    onlineCount.textContent = data.count + ' online';
+    sidebarCount.textContent = data.count;
+
+    // Update sidebar user list
+    userList.innerHTML = data.users.map(name =>
+      `<li>🟢 ${escapeHtml(name)}</li>`
+    ).join('');
+  });
+
+  // ── EVENT: typing indicator ─────────────────────────────────────
+  //
+  // Server re-broadcasts 'chat:typing' to OTHERS when someone types.
+  // We show "Alice is typing..." for 2 seconds then clear it.
+  //
+  let typingTimeout;
+  socket.on('chat:typing', (data) => {
+    typingBar.textContent = data.name + ' is typing...';
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(() => { typingBar.textContent = ''; }, 2000);
+  });
+
+  socket.on('chat:stopTyping', () => {
+    typingBar.textContent = '';
+  });
+
+  // ── SEND MESSAGE ────────────────────────────────────────────────
+  function sendMessage() {
+    const text = msgInput.value.trim();
+    if (!text) return;
+
+    // Emit to server → server broadcasts to all via io.emit
+    socket.emit('chat:message', { text });
+    socket.emit('chat:stopTyping');
+    isTyping = false;
+    msgInput.value = '';
+    msgInput.focus();
+  }
+
+  // ── SEND on Enter key ───────────────────────────────────────────
+  msgInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  // ── TYPING INDICATOR ────────────────────────────────────────────
+  //
+  // Emit 'chat:typing' when user starts typing.
+  // Emit 'chat:stopTyping' after 1.5s of no typing (debounce).
+  //
+  msgInput.addEventListener('input', () => {
+    if (!isTyping) {
+      socket.emit('chat:typing');
+      isTyping = true;
+    }
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(() => {
+      socket.emit('chat:stopTyping');
+      isTyping = false;
+    }, 1500);
+  });
+
+  // ── DOM helpers ─────────────────────────────────────────────────
+  function appendMessage(data, isOwn) {
+    const div = document.createElement('div');
+    div.style.display = 'flex';
+    div.style.flexDirection = 'column';
+    div.style.alignItems = isOwn ? 'flex-end' : 'flex-start';
+
+    div.innerHTML = `
+      <div class="msg-sender" style="${isOwn ? 'text-align:right' : ''}">
+        ${isOwn ? 'You' : escapeHtml(data.sender)}
+      </div>
+      <div class="msg-bubble ${isOwn ? 'msg-own' : 'msg-other'}">
+        ${escapeHtml(data.text)}
+        <div class="msg-time">${data.time}</div>
+      </div>
+    `;
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight; // auto-scroll
+  }
+
+  function appendSystem(text) {
+    const p = document.createElement('p');
+    p.className = 'msg-system';
+    p.textContent = text;
+    messagesEl.appendChild(p);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  // XSS prevention: escape HTML before inserting user content
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+</script>
+</body>
+</html>

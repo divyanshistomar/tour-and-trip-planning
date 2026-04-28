@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | India Trip Planner</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="logo">India<span>TripPlanner</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/destinations">Destinations</a></li>
+      <li><a href="/packages">Packages</a></li>
+      <li><a href="/booking">Book Now</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact" class="active">Contact</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+  </nav>
+
+  <div class="page-hero">
+    <p>Get in Touch</p>
+    <h1>Contact Us</h1>
+    <p class="sub">Have questions about a tour or need help planning your trip? We are here for you!</p>
+  </div>
+
+  <section class="contact-section">
+    <div class="contact-wrap">
+
+      <div class="contact-info">
+        <h2>We would Love to Hear From You</h2>
+        <p>Reach out to us with any questions about our tour packages, booking process, or destinations. Our team will respond within 24 hours.</p>
+        <div class="contact-items">
+          <div class="c-item"><div class="c-icon">&#128205;</div><div class="c-text"><strong>Address</strong><span>123 Travel House, Connaught Place, New Delhi - 110001</span></div></div>
+          <div class="c-item"><div class="c-icon">&#128222;</div><div class="c-text"><strong>Phone</strong><span>+91 98765 43210</span></div></div>
+          <div class="c-item"><div class="c-icon">&#128140;</div><div class="c-text"><strong>Email</strong><span>info@indiatripplanner.in</span></div></div>
+          <div class="c-item"><div class="c-icon">&#128336;</div><div class="c-text"><strong>Working Hours</strong><span>Mon &ndash; Sat: 9:00 AM to 6:00 PM</span></div></div>
+        </div>
+      </div>
+
+      <div class="contact-form-card">
+        <h3>Send Us a Message</h3>
+        <div class="contact-form">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="cName" placeholder="Your name" required /></div>
+          <div class="form-group"><label>Email Address *</label><input type="email" id="cEmail" placeholder="your@email.com" required /></div>
+          <div class="form-group"><label>Subject</label><input type="text" id="cSubject" placeholder="e.g. Query about Goa trip" /></div>
+          <div class="form-group"><label>Message *</label><textarea id="cMessage" placeholder="Write your message here..." required></textarea></div>
+          <button class="btn-primary" style="width:100%;" onclick="submitContact()">Send Message</button>
+        </div>
+        <div id="contact-msg"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="logo">India<span>TripPlanner</span></a>
+        <p>Your trusted platform for exploring India's finest destinations.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Pages</h4>
+        <a href="/">Home</a><a href="/destinations">Destinations</a>
+        <a href="/packages">Packages</a><a href="/booking">Book Now</a>
+        <a href="/about">About</a><a href="/contact">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 India Trip Planner &mdash; Node.js + Express.js College Project</p>
+    </div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+  <script>
+    async function submitContact() {
+      var name    = document.getElementById('cName').value.trim();
+      var email   = document.getElementById('cEmail').value.trim();
+      var subject = document.getElementById('cSubject').value.trim();
+      var message = document.getElementById('cMessage').value.trim();
+      var msg     = document.getElementById('contact-msg');
+      msg.className = '';
+
+      if (!name || !email || !message) {
+        msg.className = 'error';
+        msg.textContent = 'Please fill in Name, Email and Message.';
+        return;
+      }
+
+      var btn = document.querySelector('.contact-form .btn-primary');
+      btn.disabled = true; btn.textContent = 'Sending...';
+
+      try {
+        var res  = await fetch('/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name,email,subject,message}) });
+        var json = await res.json();
+        msg.className = json.success ? 'success' : 'error';
+        msg.textContent = json.message;
+        if (json.success) {
+          document.getElementById('cName').value = '';
+          document.getElementById('cEmail').value = '';
+          document.getElementById('cSubject').value = '';
+          document.getElementById('cMessage').value = '';
+        }
+      } catch (e) {
+        msg.className = 'error'; msg.textContent = 'Network error. Please try again.';
+      }
+      btn.disabled = false; btn.textContent = 'Send Message';
+    }
+  </script>
+</body>
+</html>

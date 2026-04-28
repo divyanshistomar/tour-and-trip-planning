@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: '404 – Page Not Found' }) %>
+</head>
+<body>
+<%- include('partials/navbar', { activePage: '' }) %>
+<div style="text-align:center; padding:100px 20px;">
+  <h1 style="font-size:6rem; color:#e74c3c; margin:0;">404</h1>
+  <h2>Page Not Found</h2>
+  <p style="color:#666; margin:16px 0 32px;">
+    The path <code><%= path %></code> doesn't exist.
+  </p>
+  <a href="/" class="btn-primary">Go Home</a>
+  &nbsp;
+  <a href="/ssr/tours" class="btn-outline">Browse Tours</a>
+</div>
+<%- include('partials/footer') %>
+</body>
+</html>

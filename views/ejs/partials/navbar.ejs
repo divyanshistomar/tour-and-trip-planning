@@ -1,0 +1,51 @@
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="nav">
+  <a href="/" class="logo">India<span>TripPlanner</span></a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="/"             <%= activePage === 'home'         ? 'class="active"' : '' %>>Home</a></li>
+    <li><a href="/destinations" <%= activePage === 'destinations'  ? 'class="active"' : '' %>>Destinations</a></li>
+    <li><a href="/ssr/packages" <%= activePage === 'packages'      ? 'class="active"' : '' %>>Packages</a></li>
+    <li><a href="/ssr/tours"    <%= activePage === 'tours'         ? 'class="active"' : '' %>>All Tours</a></li>
+    <li><a href="/booking"      <%= activePage === 'booking'       ? 'class="active"' : '' %>>Book Now</a></li>
+    <li><a href="/about"        <%= activePage === 'about'         ? 'class="active"' : '' %>>About</a></li>
+    <li><a href="/contact"      <%= activePage === 'contact'       ? 'class="active"' : '' %>>Contact</a></li>
+
+    
+    <% if (locals.isLoggedIn) { %>
+      <li><a href="/chat" <%= activePage === 'chat' ? 'class="active"' : '' %>>💬 Chat</a></li>
+    <% } %>
+  </ul>
+
+  
+  <div class="nav-auth" style="display:flex;align-items:center;gap:0.5rem">
+    <% if (locals.isLoggedIn) { %>
+      <a href="/auth/profile" style="font-size:0.85rem;color:inherit;text-decoration:none;opacity:0.85">
+        👤 <%= locals.currentUser.name.split(' ')[0] %>
+      </a>
+      <a href="/auth/logout"
+        style="background:#ef4444;color:#fff;padding:0.35rem 0.85rem;border-radius:6px;font-size:0.82rem;text-decoration:none;font-weight:600">
+        Logout
+      </a>
+    <% } else { %>
+      <a href="/auth/login"
+        style="font-size:0.85rem;color:inherit;text-decoration:none;opacity:0.85">Login</a>
+      <a href="/auth/signup"
+        style="background:linear-gradient(135deg,#f97316,#ef4444);color:#fff;padding:0.35rem 0.85rem;border-radius:6px;font-size:0.82rem;text-decoration:none;font-weight:600">
+        Sign Up
+      </a>
+    <% } %>
+  </div>
+
+  <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+</nav>

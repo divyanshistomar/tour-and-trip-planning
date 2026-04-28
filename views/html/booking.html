@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Trip | India Trip Planner</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <nav class="nav">
+    <a href="/" class="logo">India<span>TripPlanner</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/destinations">Destinations</a></li>
+      <li><a href="/packages">Packages</a></li>
+      <li><a href="/booking" class="active">Book Now</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+  </nav>
+
+  <div class="booking-page">
+    <div class="booking-page-wrap">
+
+      <!-- LEFT: Info -->
+      <div class="bk-info">
+        <span class="section-tag">Start Your Journey</span>
+        <h1>Book Your India Trip</h1>
+        <p class="sub">Select your tour, fill in your details and confirm. Our team will contact you within 24 hours.</p>
+        <div class="steps">
+          <div class="step"><div class="step-n">1</div><div class="step-t"><strong>Choose a Package</strong><p>Pick from 15+ India tour packages.</p></div></div>
+          <div class="step"><div class="step-n">2</div><div class="step-t"><strong>Enter Your Details</strong><p>Name, email, phone and travel date.</p></div></div>
+          <div class="step"><div class="step-n">3</div><div class="step-t"><strong>Confirm Booking</strong><p>Click Confirm for instant confirmation.</p></div></div>
+          <div class="step"><div class="step-n">4</div><div class="step-t"><strong>We Will Call You</strong><p>Our team finalises your trip details.</p></div></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Form -->
+      <div class="bk-form-card">
+        <h2>&#9992; Booking Form</h2>
+        <div class="bk-form">
+          <div class="form-group">
+            <label>Tour Package *</label>
+            <select id="bkTourId" required onchange="updatePrice()">
+              <option value="">-- Select a Tour Package --</option>
+            </select>
+          </div>
+
+          <div class="price-box" id="price-box">
+            <div class="price-row"><span>Package Price</span><span id="pp-price">--</span></div>
+            <div class="price-row"><span>Duration</span><span id="pp-days">--</span></div>
+            <div class="price-row"><span>Destination</span><span id="pp-dest">--</span></div>
+            <div class="price-row total"><span>Estimated Total</span><span id="pp-total">--</span></div>
+          </div>
+
+          <div class="row2">
+            <div class="form-group"><label>Full Name *</label><input type="text" id="bkName" placeholder="Your full name" required /></div>
+            <div class="form-group"><label>Email Address *</label><input type="email" id="bkEmail" placeholder="your@email.com" required /></div>
+          </div>
+          <div class="row2">
+            <div class="form-group"><label>Phone Number</label><input type="tel" id="bkPhone" placeholder="+91 00000 00000" /></div>
+            <div class="form-group"><label>No. of Travellers</label><input type="number" id="bkTravelers" value="1" min="1" max="20" onchange="updatePrice()" /></div>
+          </div>
+          <div class="form-group"><label>Preferred Travel Date *</label><input type="date" id="bkDate" required /></div>
+
+          <button class="btn-primary" style="width:100%;padding:1rem;font-size:.98rem;" onclick="submitBookingPage()">
+            &#10003; Confirm Booking
+          </button>
+        </div>
+        <div id="bk-msg"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-bottom"><p>&copy; 2025 India Trip Planner &mdash; Node.js + Express.js College Project</p></div>
+  </footer>
+
+  <script src="/js/app.js"></script>
+  <script>
+    var bkTours = [];
+
+    async function loadBkTours() {
+      var res  = await fetch('/api/tours');
+      var json = await res.json();
+      bkTours  = json.data || [];
+      var sel = document.getElementById('bkTourId');
+      bkTours.forEach(function(t) {
+        var o = document.createElement('option');
+        o.value = t.id;
+        o.text  = t.title + ' — ₹' + t.price.toLocaleString('en-IN') + ' (' + t.days + ' days)';
+        sel.appendChild(o);
+      });
+      var params = new URLSearchParams(window.location.search);
+      var tid = params.get('tour');
+      if (tid) { sel.value = tid; updatePrice(); }
+    }
+
+    function updatePrice() {
+      var id = document.getElementById('bkTourId').value;
+      var n  = parseInt(document.getElementById('bkTravelers').value) || 1;
+      var t  = bkTours.find(function(x){ return x.id === parseInt(id); });
+      var box = document.getElementById('price-box');
+      if (!t) { box.classList.remove('show'); return; }
+      document.getElementById('pp-price').textContent = '₹' + t.price.toLocaleString('en-IN') + ' / person';
+      document.getElementById('pp-days').textContent  = t.days + ' days';
+      document.getElementById('pp-dest').textContent  = t.destination + ', ' + t.state;
+      document.getElementById('pp-total').textContent = '₹' + (t.price * n).toLocaleString('en-IN');
+      box.classList.add('show');
+    }
+
+    async function submitBookingPage() {
+      var tourId    = document.getElementById('bkTourId').value;
+      var name      = document.getElementById('bkName').value.trim();
+      var email     = document.getElementById('bkEmail').value.trim();
+      var phone     = document.getElementById('bkPhone').value.trim();
+      var travelers = document.getElementById('bkTravelers').value;
+      var date      = document.getElementById('bkDate').value;
+      var msg       = document.getElementById('bk-msg');
+      msg.className = '';
+
+      if (!tourId || !name || !email || !date) {
+        msg.className = 'error';
+        msg.textContent = 'Please fill in all required fields: Tour Package, Name, Email and Travel Date.';
+        return;
+      }
+
+      var btn = document.querySelector('.bk-form .btn-primary');
+      btn.disabled = true; btn.textContent = 'Processing...';
+
+      try {
+        var res  = await fetch('/booking', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tourId, name, email, phone, travelers, date }) });
+        var json = await res.json();
+        if (json.success) {
+          window.location.href = '/booking/confirmation/' + json.bookingId;
+        } else {
+          msg.className = 'error'; msg.textContent = json.message;
+          btn.disabled = false; btn.textContent = '✓ Confirm Booking';
+        }
+      } catch (e) {
+        msg.className = 'error'; msg.textContent = 'Network error. Please try again.';
+        btn.disabled = false; btn.textContent = '✓ Confirm Booking';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadBkTours();
+      document.getElementById('bkDate').min = new Date().toISOString().split('T')[0];
+    });
+  </script>
+</body>
+</html>

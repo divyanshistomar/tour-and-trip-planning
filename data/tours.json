@@ -1,0 +1,527 @@
+[
+  {
+    "id": 1,
+    "title": "Manali Adventure Tour",
+    "destination": "Manali",
+    "state": "Himachal Pradesh",
+    "category": "Adventure",
+    "days": 6,
+    "price": 18000,
+    "rating": 4.8,
+    "reviews": 524,
+    "image": "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=700&auto=format",
+    "description": "Experience the breathtaking beauty of Manali, the adventure capital of India. Nestled in the Himalayas, Manali offers snow-capped peaks, lush valleys, river rafting, and thrilling treks for every adventure lover.",
+    "highlights": [
+      "Rohtang Pass Snow Experience",
+      "Solang Valley Cable Car",
+      "River Rafting on Beas",
+      "Old Manali Market Walk"
+    ],
+    "bestTime": "October to June",
+    "difficulty": "Moderate",
+    "groupSize": 15,
+    "attractions": [
+      "Rohtang Pass",
+      "Solang Valley",
+      "Hadimba Temple",
+      "Beas River",
+      "Old Manali"
+    ],
+    "includes": [
+      "Hotel stay 5 nights",
+      "Daily breakfast",
+      "Sightseeing by cab",
+      "Tour guide"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Shimla Hill Station Escape",
+    "destination": "Shimla",
+    "state": "Himachal Pradesh",
+    "category": "Leisure",
+    "days": 5,
+    "price": 14000,
+    "rating": 4.7,
+    "reviews": 612,
+    "image": "https://images.unsplash.com/photo-1597074866923-dc0589150358?w=700&auto=format",
+    "description": "Shimla, the Queen of Hill Stations, is a charming colonial-era town surrounded by pine forests. Walk along the famous Mall Road, visit the Ridge, and enjoy the crisp mountain air.",
+    "highlights": [
+      "Mall Road Evening Walk",
+      "Toy Train Ride",
+      "Jakhu Temple Trek",
+      "Christ Church Visit"
+    ],
+    "bestTime": "March to June, September to November",
+    "difficulty": "Easy",
+    "groupSize": 20,
+    "attractions": [
+      "Mall Road",
+      "The Ridge",
+      "Jakhu Temple",
+      "Kufri",
+      "Christ Church"
+    ],
+    "includes": [
+      "Hotel stay 4 nights",
+      "Daily breakfast",
+      "Toy train ticket",
+      "Local sightseeing"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Goa Beach Holiday",
+    "destination": "Goa",
+    "state": "Goa",
+    "category": "Leisure",
+    "days": 5,
+    "price": 16000,
+    "rating": 4.9,
+    "reviews": 891,
+    "image": "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=700&auto=format",
+    "description": "Goa is India's most beloved beach destination, famous for its golden sands, vibrant nightlife, Portuguese heritage, and delicious seafood. Whether you want relaxation or excitement, Goa has it all.",
+    "highlights": [
+      "Calangute and Baga Beach",
+      "Dudhsagar Waterfalls",
+      "Old Goa Churches",
+      "Cruise on Mandovi River"
+    ],
+    "bestTime": "November to February",
+    "difficulty": "Easy",
+    "groupSize": 20,
+    "attractions": [
+      "Calangute Beach",
+      "Baga Beach",
+      "Dudhsagar Falls",
+      "Basilica of Bom Jesus",
+      "Anjuna Flea Market"
+    ],
+    "includes": [
+      "Beach resort 4 nights",
+      "Daily breakfast",
+      "Dudhsagar trip",
+      "River cruise ticket"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Jaipur Royal Heritage Tour",
+    "destination": "Jaipur",
+    "state": "Rajasthan",
+    "category": "Cultural",
+    "days": 4,
+    "price": 12000,
+    "rating": 4.8,
+    "reviews": 743,
+    "image": "https://images.unsplash.com/photo-1477587458883-47145ed94245?w=700&auto=format",
+    "description": "The Pink City of Jaipur is a stunning blend of royal palaces, vibrant bazaars, and Rajput heritage. Explore majestic forts, colourful markets, and experience the grandeur of Rajasthan culture.",
+    "highlights": [
+      "Amber Fort Elephant Ride",
+      "Hawa Mahal Photography",
+      "City Palace Tour",
+      "Johari Bazaar Shopping"
+    ],
+    "bestTime": "October to March",
+    "difficulty": "Easy",
+    "groupSize": 18,
+    "attractions": [
+      "Amber Fort",
+      "Hawa Mahal",
+      "City Palace",
+      "Jantar Mantar",
+      "Nahargarh Fort"
+    ],
+    "includes": [
+      "Hotel stay 3 nights",
+      "Daily breakfast",
+      "City tour by cab",
+      "Entry tickets"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Udaipur Lake City Romance",
+    "destination": "Udaipur",
+    "state": "Rajasthan",
+    "category": "Leisure",
+    "days": 4,
+    "price": 13500,
+    "rating": 4.9,
+    "reviews": 567,
+    "image": "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=700&auto=format",
+    "description": "Udaipur, the City of Lakes, is one of India's most romantic destinations. With its shimmering lakes, grand palaces, and colourful bazaars, Udaipur is truly a fairy-tale city in the heart of Rajasthan.",
+    "highlights": [
+      "Boat Ride on Lake Pichola",
+      "City Palace Museum",
+      "Vintage Car Museum",
+      "Saheliyon ki Bari Garden"
+    ],
+    "bestTime": "September to March",
+    "difficulty": "Easy",
+    "groupSize": 16,
+    "attractions": [
+      "Lake Pichola",
+      "City Palace",
+      "Jag Mandir",
+      "Fateh Sagar Lake",
+      "Sajjangarh Fort"
+    ],
+    "includes": [
+      "Heritage hotel 3 nights",
+      "Breakfast and dinner",
+      "Boat ride",
+      "City sightseeing"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Leh-Ladakh Expedition",
+    "destination": "Leh-Ladakh",
+    "state": "Ladakh",
+    "category": "Adventure",
+    "days": 8,
+    "price": 32000,
+    "rating": 4.9,
+    "reviews": 389,
+    "image": "https://images.unsplash.com/photo-1655466903571-f24d58ec3985?w=700&auto=format",
+    "description": "Leh-Ladakh is a land of high-altitude deserts, ancient monasteries, and surreal landscapes. This bucket-list destination offers an unmatched experience for adventure seekers and nature lovers.",
+    "highlights": [
+      "Pangong Lake Visit",
+      "Khardung La Pass Drive",
+      "Nubra Valley Camel Ride",
+      "Ancient Monastery Tours"
+    ],
+    "bestTime": "June to September",
+    "difficulty": "Challenging",
+    "groupSize": 10,
+    "attractions": [
+      "Pangong Lake",
+      "Khardung La Pass",
+      "Nubra Valley",
+      "Leh Palace",
+      "Hemis Monastery"
+    ],
+    "includes": [
+      "Camp and guesthouse 7 nights",
+      "All meals",
+      "Inner line permit",
+      "Jeep safari"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Kerala Backwaters and Hills",
+    "destination": "Kerala",
+    "state": "Kerala",
+    "category": "Wellness",
+    "days": 7,
+    "price": 22000,
+    "rating": 4.8,
+    "reviews": 678,
+    "image": "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?w=700&auto=format",
+    "description": "Kerala, Gods Own Country, enchants visitors with serene backwaters, misty tea gardens of Munnar, Ayurvedic spas, and stunning beaches. A perfect blend of nature, culture, and wellness.",
+    "highlights": [
+      "Alleppey Houseboat Cruise",
+      "Munnar Tea Plantation Walk",
+      "Ayurvedic Massage",
+      "Kathakali Dance Show"
+    ],
+    "bestTime": "September to March",
+    "difficulty": "Easy",
+    "groupSize": 14,
+    "attractions": [
+      "Alleppey Backwaters",
+      "Munnar Tea Gardens",
+      "Periyar Wildlife Sanctuary",
+      "Kovalam Beach",
+      "Fort Kochi"
+    ],
+    "includes": [
+      "Houseboat 1 night",
+      "Resort 5 nights",
+      "All meals on houseboat",
+      "Sightseeing by cab"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Rishikesh Yoga and Adventure",
+    "destination": "Rishikesh",
+    "state": "Uttarakhand",
+    "category": "Wellness",
+    "days": 5,
+    "price": 11000,
+    "rating": 4.7,
+    "reviews": 512,
+    "image": "https://images.unsplash.com/photo-1600101771104-b14f19b66e1c?w=700&auto=format",
+    "description": "Rishikesh, the Yoga Capital of the World, sits on the banks of the holy Ganga. It offers a unique mix of spiritual retreats, white-water rafting, bungee jumping, and peaceful meditation.",
+    "highlights": [
+      "White Water Rafting on Ganga",
+      "Bungee Jumping",
+      "Laxman Jhula Walk",
+      "Evening Ganga Aarti"
+    ],
+    "bestTime": "February to May, September to November",
+    "difficulty": "Moderate",
+    "groupSize": 15,
+    "attractions": [
+      "Laxman Jhula",
+      "Ram Jhula",
+      "Triveni Ghat",
+      "Neelkanth Temple",
+      "Beatles Ashram"
+    ],
+    "includes": [
+      "Camp stay 4 nights",
+      "Daily breakfast",
+      "Rafting activity",
+      "Yoga session"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Varanasi Spiritual Journey",
+    "destination": "Varanasi",
+    "state": "Uttar Pradesh",
+    "category": "Cultural",
+    "days": 3,
+    "price": 8500,
+    "rating": 4.7,
+    "reviews": 456,
+    "image": "https://images.unsplash.com/photo-1561361058-c24e01108044?w=700&auto=format",
+    "description": "Varanasi, one of the worlds oldest living cities, is the spiritual heart of India. Experience the mystical Ganga Aarti, boat rides at dawn on the sacred Ganges, and ancient ghats full of history.",
+    "highlights": [
+      "Ganga Aarti at Dashashwamedh Ghat",
+      "Sunrise Boat Ride",
+      "Kashi Vishwanath Temple",
+      "Sarnath Buddha Tour"
+    ],
+    "bestTime": "October to March",
+    "difficulty": "Easy",
+    "groupSize": 18,
+    "attractions": [
+      "Dashashwamedh Ghat",
+      "Kashi Vishwanath Temple",
+      "Manikarnika Ghat",
+      "Sarnath",
+      "Assi Ghat"
+    ],
+    "includes": [
+      "Hotel stay 2 nights",
+      "Daily breakfast",
+      "Boat ride",
+      "Guided ghat walk"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Agra Taj Mahal Tour",
+    "destination": "Agra",
+    "state": "Uttar Pradesh",
+    "category": "Cultural",
+    "days": 2,
+    "price": 6500,
+    "rating": 4.9,
+    "reviews": 934,
+    "image": "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=700&auto=format",
+    "description": "Agra is home to one of the Seven Wonders of the World, the magnificent Taj Mahal. Built by Emperor Shah Jahan, this ivory-white marble mausoleum is an eternal symbol of love and a must-visit.",
+    "highlights": [
+      "Taj Mahal Sunrise Visit",
+      "Agra Fort Tour",
+      "Fatehpur Sikri Day Trip",
+      "Petha Sweet Shopping"
+    ],
+    "bestTime": "October to March",
+    "difficulty": "Easy",
+    "groupSize": 20,
+    "attractions": [
+      "Taj Mahal",
+      "Agra Fort",
+      "Fatehpur Sikri",
+      "Mehtab Bagh",
+      "Itmad-ud-Daulah"
+    ],
+    "includes": [
+      "Hotel stay 1 night",
+      "Breakfast",
+      "Taj Mahal entry ticket",
+      "Local guide"
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Delhi Heritage Explorer",
+    "destination": "Delhi",
+    "state": "Delhi",
+    "category": "Cultural",
+    "days": 3,
+    "price": 9000,
+    "rating": 4.6,
+    "reviews": 723,
+    "image": "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=700&auto=format",
+    "description": "Delhi, India's capital, is a fascinating city where ancient history meets modern life. From Mughal monuments to bustling bazaars and world-class cuisine, Delhi has something for everyone.",
+    "highlights": [
+      "Red Fort and Chandni Chowk",
+      "Qutub Minar Tour",
+      "India Gate and Rajpath",
+      "Street Food Trail in Old Delhi"
+    ],
+    "bestTime": "October to March",
+    "difficulty": "Easy",
+    "groupSize": 20,
+    "attractions": [
+      "Red Fort",
+      "Qutub Minar",
+      "India Gate",
+      "Humayun Tomb",
+      "Lotus Temple"
+    ],
+    "includes": [
+      "Hotel stay 2 nights",
+      "Daily breakfast",
+      "Metro card",
+      "Guided heritage walk"
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Darjeeling Tea and Himalaya Tour",
+    "destination": "Darjeeling",
+    "state": "West Bengal",
+    "category": "Nature",
+    "days": 5,
+    "price": 15000,
+    "rating": 4.7,
+    "reviews": 398,
+    "image": "https://images.unsplash.com/photo-1566737236500-c8ac43014a67?w=700&auto=format",
+    "description": "Darjeeling is famous for its world-renowned tea gardens, stunning views of Kanchenjunga peak, and the charming Darjeeling Himalayan Railway, a UNESCO World Heritage Site.",
+    "highlights": [
+      "Tiger Hill Sunrise over Kanchenjunga",
+      "Toy Train Joyride",
+      "Tea Garden Visit and Tasting",
+      "Batasia Loop"
+    ],
+    "bestTime": "March to May, September to November",
+    "difficulty": "Easy",
+    "groupSize": 16,
+    "attractions": [
+      "Tiger Hill",
+      "Batasia Loop",
+      "Darjeeling Himalayan Railway",
+      "Happy Valley Tea Estate",
+      "Padmaja Naidu Zoo"
+    ],
+    "includes": [
+      "Hotel stay 4 nights",
+      "Daily breakfast",
+      "Toy train ticket",
+      "Tea garden tour"
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Andaman Islands Beach Holiday",
+    "destination": "Andaman and Nicobar",
+    "state": "Andaman and Nicobar Islands",
+    "category": "Leisure",
+    "days": 6,
+    "price": 28000,
+    "rating": 4.9,
+    "reviews": 445,
+    "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&auto=format",
+    "description": "The Andaman and Nicobar Islands are a tropical paradise with crystal-clear turquoise waters, white sandy beaches, and vibrant coral reefs. Perfect for snorkelling, scuba diving, and relaxation.",
+    "highlights": [
+      "Radhanagar Beach Sunset",
+      "Scuba Diving at Havelock",
+      "Cellular Jail Light and Sound Show",
+      "Glass Bottom Boat Ride"
+    ],
+    "bestTime": "November to April",
+    "difficulty": "Easy",
+    "groupSize": 12,
+    "attractions": [
+      "Radhanagar Beach",
+      "Cellular Jail",
+      "Neil Island",
+      "Ross Island",
+      "Elephant Beach"
+    ],
+    "includes": [
+      "Beach resort 5 nights",
+      "Daily breakfast",
+      "Scuba diving session",
+      "Island ferry transfers"
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Ooty Nilgiri Hills Tour",
+    "destination": "Ooty",
+    "state": "Tamil Nadu",
+    "category": "Nature",
+    "days": 4,
+    "price": 11500,
+    "rating": 4.6,
+    "reviews": 387,
+    "image": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=700&auto=format",
+    "description": "Ooty, the Queen of Hill Stations in South India, is nestled in the Nilgiri Hills. Famous for its beautiful botanical gardens, serene Ooty Lake, and the enchanting Nilgiri Mountain Railway.",
+    "highlights": [
+      "Nilgiri Mountain Railway Toy Train",
+      "Botanical Garden Visit",
+      "Ooty Lake Boating",
+      "Doddabetta Peak Trek"
+    ],
+    "bestTime": "April to June, September to November",
+    "difficulty": "Easy",
+    "groupSize": 18,
+    "attractions": [
+      "Ooty Lake",
+      "Government Botanical Gardens",
+      "Doddabetta Peak",
+      "Rose Garden",
+      "Mudumalai National Park"
+    ],
+    "includes": [
+      "Hotel stay 3 nights",
+      "Daily breakfast",
+      "Toy train ticket",
+      "Sightseeing by cab"
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Kashmir Paradise Tour",
+    "destination": "Kashmir",
+    "state": "Jammu and Kashmir",
+    "category": "Nature",
+    "days": 7,
+    "price": 26000,
+    "rating": 4.9,
+    "reviews": 621,
+    "image": "https://images.unsplash.com/photo-1566837945700-30057527ade0?w=700&auto=format",
+    "description": "Kashmir is called Paradise on Earth. With snow-covered mountains, blooming tulip gardens, serene Dal Lake, and the ski slopes of Gulmarg, Kashmir is an experience unlike any other in India.",
+    "highlights": [
+      "Shikara Ride on Dal Lake",
+      "Gulmarg Gondola Ski Ride",
+      "Pahalgam Valley Trekking",
+      "Tulip Garden in April"
+    ],
+    "bestTime": "March to October",
+    "difficulty": "Easy",
+    "groupSize": 14,
+    "attractions": [
+      "Dal Lake",
+      "Gulmarg",
+      "Pahalgam",
+      "Sonamarg",
+      "Mughal Gardens"
+    ],
+    "includes": [
+      "Houseboat and hotel 6 nights",
+      "All meals",
+      "Shikara ride",
+      "Gulmarg gondola ticket"
+    ]
+  }
+]

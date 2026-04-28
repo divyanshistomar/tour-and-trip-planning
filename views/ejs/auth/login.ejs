@@ -1,0 +1,91 @@
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head', { title }) %>
+<body>
+<%- include('../partials/navbar', { activePage: 'login' }) %>
+
+<main style="min-height:80vh;display:flex;align-items:center;justify-content:center;padding:2rem">
+  <div style="background:#fff;border-radius:12px;box-shadow:0 4px 24px rgba(0,0,0,0.10);padding:2.5rem 2rem;width:100%;max-width:420px">
+
+    <h1 style="text-align:center;margin-bottom:0.25rem;color:#1a1a2e;font-size:1.75rem">Welcome Back 🌏</h1>
+    <p style="text-align:center;color:#666;margin-bottom:1.75rem;font-size:0.95rem">Sign in to your account</p>
+
+    
+    <% if (error) { %>
+      <div style="background:#fff0f0;border:1px solid #ffcccc;color:#c0392b;border-radius:8px;padding:0.75rem 1rem;margin-bottom:1.25rem;font-size:0.9rem">
+        ⚠️ <%= error %>
+      </div>
+    <% } %>
+
+    
+
+
+
+
+
+
+
+    <form action="/auth/login" method="POST">
+      <div style="margin-bottom:1rem">
+        <label style="display:block;margin-bottom:0.35rem;font-weight:600;color:#333;font-size:0.9rem">Email Address</label>
+        <input
+          type="email"
+          name="email"
+          placeholder="you@example.com"
+          required
+          style="width:100%;padding:0.65rem 0.85rem;border:1.5px solid #ddd;border-radius:8px;font-size:1rem;box-sizing:border-box;outline:none;transition:border 0.2s"
+          onfocus="this.style.borderColor='#f97316'"
+          onblur="this.style.borderColor='#ddd'"
+        />
+      </div>
+
+      <div style="margin-bottom:1.5rem">
+        <label style="display:block;margin-bottom:0.35rem;font-weight:600;color:#333;font-size:0.9rem">Password</label>
+        <input
+          type="password"
+          name="password"
+          placeholder="••••••••"
+          required
+          style="width:100%;padding:0.65rem 0.85rem;border:1.5px solid #ddd;border-radius:8px;font-size:1rem;box-sizing:border-box;outline:none;transition:border 0.2s"
+          onfocus="this.style.borderColor='#f97316'"
+          onblur="this.style.borderColor='#ddd'"
+        />
+      </div>
+
+      <button
+        type="submit"
+        style="width:100%;padding:0.8rem;background:linear-gradient(135deg,#f97316,#ef4444);color:#fff;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:0.5px"
+      >
+        Sign In →
+      </button>
+    </form>
+
+    <p style="text-align:center;margin-top:1.25rem;color:#666;font-size:0.9rem">
+      Don't have an account?
+      <a href="/auth/signup" style="color:#f97316;font-weight:600;text-decoration:none">Sign Up</a>
+    </p>
+
+    
+    <details style="margin-top:1.75rem;background:#f8f9ff;border-radius:8px;padding:1rem;font-size:0.82rem;color:#555;border:1px solid #e0e4ff">
+      <summary style="cursor:pointer;font-weight:700;color:#333">🔑 API / JWT Login (Postman)</summary>
+      <p style="margin:0.75rem 0 0.25rem">For API clients, send a POST to:</p>
+      <code style="background:#1a1a2e;color:#f97316;padding:0.2rem 0.5rem;border-radius:4px;font-size:0.8rem">POST /auth/api/login</code>
+      <p style="margin:0.5rem 0 0.25rem">Body: <code style="background:#eee;padding:0.2rem 0.4rem;border-radius:4px">{ "email": "...", "password": "..." }</code></p>
+      <p style="margin:0.5rem 0 0">Returns a JWT token. Use it as:<br>
+      <code style="background:#eee;padding:0.2rem 0.4rem;border-radius:4px">Authorization: Bearer &lt;token&gt;</code>
+      </p>
+    </details>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>
+</body>
+</html>

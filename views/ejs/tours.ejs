@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: title }) %>
+</head>
+<body>
+
+<%- include('partials/navbar', { activePage: 'tours' }) %>
+
+<div class="page-hero">
+  <h1><%= pageHeading %></h1>
+  
+  <p class="sub"><%= pageSubtitle %></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<section class="search-section">
+  <div class="search-card">
+    <h2>Filter Tours</h2>
+    <form class="search-form" method="GET" action="/ssr/tours">
+      <div class="form-group">
+        <label for="category">Category</label>
+        <select id="category" name="category" onchange="this.form.submit()">
+          <option value="">All Categories</option>
+          <% categories.forEach(function(cat) { %>
+            
+            <option value="<%= cat %>" <%= selectedCategory === cat ? 'selected' : '' %>>
+              <%= cat %>
+            </option>
+          <% }) %>
+          
+
+
+
+
+
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="maxPrice">Max Price (₹)</label>
+        <input type="number" id="maxPrice" name="maxPrice" placeholder="e.g. 20000"
+               value="<%= maxPrice || '' %>">
+      </div>
+      <div class="form-group" style="align-self:flex-end">
+        <button type="submit" class="btn-primary">Apply Filter</button>
+        <a href="/ssr/tours" class="btn-outline" style="margin-left:8px">Clear</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+
+<section class="packages-section">
+  <div class="section-header">
+    <span class="section-tag">
+      
+
+
+
+      <% if (selectedCategory) { %>
+        <%= tours.length %> <%= selectedCategory %> Tour<%= tours.length !== 1 ? 's' : '' %>
+      <% } else { %>
+        All <%= tours.length %> Tours
+      <% } %>
+    </span>
+    <h2 class="section-title">
+      <% if (selectedCategory) { %>
+        <%= selectedCategory %> Tours
+      <% } else { %>
+        Available Tours
+      <% } %>
+    </h2>
+  </div>
+
+  
+  
+
+
+
+
+
+  <% if (tours.length === 0) { %>
+    
+    <div style="text-align:center; padding: 60px 20px;">
+      <h3>No tours found for this filter.</h3>
+      <a href="/ssr/tours" class="btn-primary" style="margin-top:16px;display:inline-block">
+        Show All Tours
+      </a>
+    </div>
+  <% } else { %>
+    <div class="tours-grid">
+      <% tours.forEach(function(tour) { %>
+        
+
+
+  with the actual string before sending HTML.
+        %>
+        <div class="tour-card">
+          <div class="tour-img-wrap">
+            <img src="<%= tour.image %>" alt="<%= tour.title %>" loading="lazy">
+            <span class="tour-badge"><%= tour.category %></span>
+          </div>
+          <div class="tour-body">
+            <h3 class="tour-title"><%= tour.title %></h3>
+            <p class="tour-dest">
+              📍 <%= tour.destination %>, <%= tour.state %>
+            </p>
+            <p class="tour-desc"><%= tour.description.substring(0, 110) %>...</p>
+            
+
+
+
+            <div class="tour-meta">
+              <span>🕐 <%= tour.days %> Days</span>
+              <span>👥 Max <%= tour.groupSize %></span>
+              <span>⭐ <%= tour.rating %> (<%= tour.reviews %> reviews)</span>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price">
+                ₹<%= tour.price.toLocaleString('en-IN') %>
+                <span class="per-person">/ person</span>
+              </div>
+              
+              <a href="/ssr/tours/<%= tour.id %>" class="btn-primary">View Details</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+      
+    </div>
+  <% } %>
+
+</section>
+
+
+<section style="background:#f8f9fa; padding:32px 24px; margin:32px auto; max-width:860px; border-radius:12px; border-left:4px solid #e74c3c;">
+  <h3 style="margin:0 0 12px;">🔍 SSR vs CSR — What's Happening Here</h3>
+  <table style="width:100%; border-collapse:collapse; font-size:14px;">
+    <thead>
+      <tr style="background:#e74c3c; color:#fff;">
+        <th style="padding:8px 12px; text-align:left;">Feature</th>
+        <th style="padding:8px 12px; text-align:left;">SSR (this page — /ssr/tours)</th>
+        <th style="padding:8px 12px; text-align:left;">CSR (old page — /packages)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="border-bottom:1px solid #ddd;">
+        <td style="padding:8px 12px;"><strong>Rendering</strong></td>
+        <td style="padding:8px 12px;">Express + EJS on server</td>
+        <td style="padding:8px 12px;">Browser JS (fetch + DOM)</td>
+      </tr>
+      <tr style="border-bottom:1px solid #ddd; background:#fff;">
+        <td style="padding:8px 12px;"><strong>HTTP Requests</strong></td>
+        <td style="padding:8px 12px;">1 (page = complete HTML)</td>
+        <td style="padding:8px 12px;">2 (page + /api/tours)</td>
+      </tr>
+      <tr style="border-bottom:1px solid #ddd;">
+        <td style="padding:8px 12px;"><strong>JS Required</strong></td>
+        <td style="padding:8px 12px;">No (works with JS off)</td>
+        <td style="padding:8px 12px;">Yes (page is blank without it)</td>
+      </tr>
+      <tr style="border-bottom:1px solid #ddd; background:#fff;">
+        <td style="padding:8px 12px;"><strong>SEO</strong></td>
+        <td style="padding:8px 12px;">✅ Content in initial HTML</td>
+        <td style="padding:8px 12px;">❌ Bots see empty shell</td>
+      </tr>
+      <tr>
+        <td style="padding:8px 12px;"><strong>Filter State</strong></td>
+        <td style="padding:8px 12px;">URL params (sharable link)</td>
+        <td style="padding:8px 12px;">JS memory (lost on refresh)</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <p style="margin:12px 0 0; font-size:13px; color:#666;">
+    Rendered at: <strong><%= renderTime %></strong> on the server
+    (this timestamp is set before res.render() is called)
+  </p>
+</section>
+
+<%- include('partials/footer') %>
+</body>
+</html>

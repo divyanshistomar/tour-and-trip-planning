@@ -1,0 +1,148 @@
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head', { title: 'Packages' }) %>
+</head>
+<body>
+
+<%- include('partials/navbar', { activePage: 'packages' }) %>
+
+<div class="page-hero">
+  <h1>Tour Packages</h1>
+  
+
+
+
+  <p class="sub">
+    Choose from <strong><%= stats.totalTours %></strong> handpicked tours across
+    <strong><%= stats.totalDestinations %></strong> destinations in India.
+    Prices from <strong>₹<%= stats.minPrice.toLocaleString('en-IN') %></strong>.
+  </p>
+</div>
+
+
+<section class="search-section">
+  <div class="search-card" style="padding:20px 24px;">
+    <div class="tag-list" style="justify-content:center; gap:10px; flex-wrap:wrap;">
+      <a href="/ssr/packages"
+         class="<%= !selectedCategory ? 'btn-primary' : 'btn-outline' %>"
+         style="padding:8px 20px; border-radius:20px; text-decoration:none; font-size:14px;">
+        All
+      </a>
+      <% categories.forEach(function(cat) { %>
+        <a href="/ssr/packages?category=<%= cat %>"
+           class="<%= selectedCategory === cat ? 'btn-primary' : 'btn-outline' %>"
+           style="padding:8px 20px; border-radius:20px; text-decoration:none; font-size:14px;">
+          <%= cat %>
+        </a>
+      <% }) %>
+    </div>
+  </div>
+</section>
+
+
+<% if (!selectedCategory && featured.length > 0) { %>
+  
+
+
+
+
+  <section class="packages-section">
+    <div class="section-header">
+      <span class="section-tag">⭐ Top Rated</span>
+      <h2 class="section-title">Featured Packages</h2>
+    </div>
+    <div class="tours-grid">
+      <% featured.forEach(function(tour) { %>
+        <div class="tour-card" style="border:2px solid #e74c3c;">
+          <div class="tour-img-wrap">
+            <img src="<%= tour.image %>" alt="<%= tour.title %>" loading="lazy">
+            <span class="tour-badge"><%= tour.category %></span>
+            <span class="tour-badge" style="top:42px; background:#f39c12;">⭐ <%= tour.rating %></span>
+          </div>
+          <div class="tour-body">
+            <h3 class="tour-title"><%= tour.title %></h3>
+            <p class="tour-dest">📍 <%= tour.destination %>, <%= tour.state %></p>
+            <p class="tour-desc"><%= tour.description.substring(0, 100) %>...</p>
+            <div class="tour-meta">
+              <span>🕐 <%= tour.days %> Days</span>
+              <span>👥 Max <%= tour.groupSize %></span>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price">₹<%= tour.price.toLocaleString('en-IN') %><span class="per-person">/ person</span></div>
+              <a href="/ssr/tours/<%= tour.id %>" class="btn-primary">View Details</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </section>
+  <hr style="margin: 0 24px; border-color:#eee;">
+<% } %>
+
+
+<section class="packages-section">
+  <div class="section-header">
+    <span class="section-tag">
+      <% if (selectedCategory) { %>
+        <%= tours.length %> <%= selectedCategory %> Tour<%= tours.length !== 1 ? 's' : '' %>
+      <% } else { %>
+        All <%= tours.length %> Packages
+      <% } %>
+    </span>
+    <h2 class="section-title">
+      <% if (selectedCategory) { %><%= selectedCategory %> Tours<% } else { %>All Tours<% } %>
+    </h2>
+  </div>
+
+  <% if (tours.length === 0) { %>
+    <div style="text-align:center; padding:60px;">
+      <h3>No packages in this category yet.</h3>
+      <a href="/ssr/packages" class="btn-primary" style="display:inline-block;margin-top:16px">Show All</a>
+    </div>
+  <% } else { %>
+    <div class="tours-grid">
+      <% tours.forEach(function(tour) { %>
+        <div class="tour-card">
+          <div class="tour-img-wrap">
+            <img src="<%= tour.image %>" alt="<%= tour.title %>" loading="lazy">
+            <span class="tour-badge"><%= tour.category %></span>
+          </div>
+          <div class="tour-body">
+            <h3 class="tour-title"><%= tour.title %></h3>
+            <p class="tour-dest">📍 <%= tour.destination %>, <%= tour.state %></p>
+            <p class="tour-desc"><%= tour.description.substring(0, 100) %>...</p>
+            <div class="tour-meta">
+              <span>🕐 <%= tour.days %> Days</span>
+              <span>👥 Max <%= tour.groupSize %></span>
+              <span>⭐ <%= tour.rating %></span>
+            </div>
+            <div class="tour-footer">
+              <div class="tour-price">₹<%= tour.price.toLocaleString('en-IN') %><span class="per-person">/ person</span></div>
+              <a href="/ssr/tours/<%= tour.id %>" class="btn-primary">View Details</a>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<p style="text-align:center; color:#888; font-size:13px; padding:12px;">
+  Page rendered server-side at <%= renderTime %> &nbsp;|&nbsp;
+  REST API still available at <a href="/api/tours">/api/tours</a>
+</p>
+
+<%- include('partials/footer') %>
+</body>
+</html>
