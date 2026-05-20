@@ -1,5 +1,0 @@
-node_modules/
-.env
-data/enquiries.log
-*.log
-.DS_Store
