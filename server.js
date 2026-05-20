@@ -42,16 +42,7 @@ const app    = express();
 const server = http.createServer(app); // MUST use http.Server (not app.listen) for Socket.io
 const PORT   = process.env.PORT || 3000;
 
-// ════════════════════════════════════════════════════════════════
-// SOCKET.IO SETUP
-// Socket.io attaches to the http.Server to intercept WebSocket
-// upgrade requests before Express can see them.
-//
-// EMIT CHEAT SHEET:
-//   socket.emit(event, data)           → send to THIS client only
-//   socket.broadcast.emit(event, data) → send to ALL except this client
-//   io.emit(event, data)               → send to ALL clients
-// ════════════════════════════════════════════════════════════════
+
 const io = socketio(server, {
   cors: { origin: '*', methods: ['GET', 'POST'] },
 });
@@ -91,20 +82,7 @@ app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 app.use(maintenanceMode);                           // 503 if MAINTENANCE=true in .env
 app.use(requestTimer);                              // Log slow requests
 
-// ── SESSION MIDDLEWARE ────────────────────────────────────────────
-//
-// Sessions are stored in MongoDB (via connect-mongo) so they survive
-// server restarts. Without this, everyone is logged out on every restart.
-//
-// COOKIE vs SESSION:
-//   Cookie  = small data stored IN THE BROWSER, sent with every request.
-//   Session = server-side storage; browser only holds the session ID key.
-//
-// FLOW:
-//   Login → server creates session in MongoDB → sends session ID as cookie
-//   Next request → browser sends cookie → server fetches session → req.session
-//   Passport reads session → deserializeUser → req.user populated
-//
+
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/india-trip-planner';
 
 // Build session store — MongoStore persists sessions across restarts.
@@ -132,8 +110,7 @@ app.use(session({
   },
 }));
 
-// ── PASSPORT MIDDLEWARE ───────────────────────────────────────────
-// ORDER: session() MUST come BEFORE passport.initialize()
+
 app.use(passport.initialize()); // bootstrap Passport
 app.use(passport.session());    // link Passport to express-session
 
@@ -150,9 +127,7 @@ app.use((req, res, next) => {
 // Only activates if API_KEY is set in .env
 app.use('/api', apiKeyGuard);
 
-// ════════════════════════════════════════════════════════════════
-// ROUTES
-// ════════════════════════════════════════════════════════════════
+
 
 // ── v3 HTML routes (all fully working, unchanged) ─────────────────
 app.use('/',             homeRoute);          // GET /           → views/html/index.html
@@ -304,13 +279,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// ════════════════════════════════════════════════════════════════
-// START SERVER
-// Listen on `server` (http.Server), NOT `app`.
-// Socket.io NEEDS the http.Server to intercept WebSocket upgrades.
-// Using app.listen() creates its own internal http.Server — Socket.io
-// would never see WebSocket connections.
-// ════════════════════════════════════════════════════════════════
+
 server.listen(PORT, () => {
   console.log('');
   console.log('  ════════════════════════════════════════════════════');
