@@ -72,17 +72,10 @@ try {
 }
 app.locals.tours = toursData; // available in ALL routes via req.app.locals.tours
 
-// ════════════════════════════════════════════════════════════════
-// VIEW ENGINE — EJS (for v4 SSR routes)
-// HTML views are served directly via fs.createReadStream (v3 style).
-// EJS views live in views/ejs/ and are served via res.render().
-// ════════════════════════════════════════════════════════════════
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// ════════════════════════════════════════════════════════════════
-// MIDDLEWARE STACK (ORDER MATTERS)
-// ════════════════════════════════════════════════════════════════
+
 app.use(morgan('dev'));                             // HTTP request logger
 app.use(cors());                                    // Allow cross-origin requests
 app.use(express.json());                            // Parse JSON body
@@ -91,20 +84,7 @@ app.use(express.static(path.join(__dirname, 'public'))); // Serve static files
 app.use(maintenanceMode);                           // 503 if MAINTENANCE=true in .env
 app.use(requestTimer);                              // Log slow requests
 
-// ── SESSION MIDDLEWARE ────────────────────────────────────────────
-//
-// Sessions are stored in MongoDB (via connect-mongo) so they survive
-// server restarts. Without this, everyone is logged out on every restart.
-//
-// COOKIE vs SESSION:
-//   Cookie  = small data stored IN THE BROWSER, sent with every request.
-//   Session = server-side storage; browser only holds the session ID key.
-//
-// FLOW:
-//   Login → server creates session in MongoDB → sends session ID as cookie
-//   Next request → browser sends cookie → server fetches session → req.session
-//   Passport reads session → deserializeUser → req.user populated
-//
+
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/india-trip-planner';
 
 // Build session store — MongoStore persists sessions across restarts.
@@ -224,9 +204,7 @@ app.use((req, res) => {
 // ── Global Error Handler (MUST be last) ──────────────────────────
 app.use(errorHandler);
 
-// ════════════════════════════════════════════════════════════════
-// SOCKET.IO — Real-Time Group Chat Event Handlers
-// ════════════════════════════════════════════════════════════════
+
 
 // In-memory map: socketId → { name, email }
 // Note: resets on server restart — use Redis for production
@@ -304,13 +282,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// ════════════════════════════════════════════════════════════════
-// START SERVER
-// Listen on `server` (http.Server), NOT `app`.
-// Socket.io NEEDS the http.Server to intercept WebSocket upgrades.
-// Using app.listen() creates its own internal http.Server — Socket.io
-// would never see WebSocket connections.
-// ════════════════════════════════════════════════════════════════
+
 server.listen(PORT, () => {
   console.log('');
   console.log('  ════════════════════════════════════════════════════');
