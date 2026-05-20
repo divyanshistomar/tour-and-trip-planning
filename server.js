@@ -1,26 +1,4 @@
-// server.js  —  India Trip Planner (Merged: v3 HTML routes + v4 Auth + Socket.io)
-// ═══════════════════════════════════════════════════════════════════════════════
-//
-// MERGED FEATURES:
-//   v3 (Old Project):
-//     - Static HTML routes: /, /destinations, /packages, /booking, /about, /contact
-//     - JSON API:           /api/tours, /api/tours/:id
-//     - File-based storage: bookings saved to data/bookings.json
-//     - Tours loaded from:  data/tours.json
-//
-//   v4 (New Features):
-//     - express-session + connect-mongo → session management (stored in MongoDB)
-//     - passport.js        → local strategy (email + password auth)
-//     - bcryptjs           → password hashing (in models/User.js)
-//     - jsonwebtoken       → JWT for API-based auth
-//     - socket.io          → real-time group chat
-//     - EJS templating     → SSR pages (views/ejs/)
-//     - /auth/*            → login, signup, logout, profile
-//     - /chat              → real-time chat (requires login)
-//     - /ssr/*             → server-side rendered tour pages
-//     - /api/db/*          → MongoDB-backed API endpoints
-//
-// ═══════════════════════════════════════════════════════════════════════════════
+
 
 require('dotenv').config(); // load .env variables (PORT, MONGO_URI, etc.)
 
